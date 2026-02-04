@@ -10,6 +10,10 @@
                     {{ playlist.name }}&nbsp;
                 {% endfor %}
             <br /><br />
+            <strong>nombre de formation :</strong>
+            <!-- affichage du nombre de formations -->
+                {{ playlist.formations|length }}
+            <br /><br />
             <strong>description :</strong><br />
                 {{ playlist.description|nl2br }}
         </div>
