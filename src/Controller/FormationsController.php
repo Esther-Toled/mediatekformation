@@ -11,27 +11,29 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Controleur des formations
  *
- * @author emds
+ * @author toled
  */
 class FormationsController extends AbstractController {
 
+    const PAGE_FORMATIONS = "pages/formations.html.twig";
+    
+    const PAGE_FORMATION = "pages/formation.html.twig";
+
+
+
     /**
-     * 
+     *
      * @var FormationRepository
      */
     private $formationRepository;
     
     /**
-     * 
+     *
      * @var CategorieRepository
      */
     private $categorieRepository;
     
-    private const KEY_FORMATIONS = 'formations';
-    private const KEY_CATEGORIES = 'categories';
-    private const TEMPLATE_INDEX = 'pages/formations.html.twig';
-    
-    function __construct(FormationRepository $formationRepository, CategorieRepository $categorieRepository) {
+    public function __construct(FormationRepository $formationRepository, CategorieRepository $categorieRepository) {
         $this->formationRepository = $formationRepository;
         $this->categorieRepository= $categorieRepository;
     }
@@ -40,9 +42,9 @@ class FormationsController extends AbstractController {
     public function index(): Response{
         $formations = $this->formationRepository->findAll();
         $categories = $this->categorieRepository->findAll();
-        return $this->render(self::TEMPLATE_INDEX,[
-            self::KEY_FORMATIONS => $formations,
-            self::KEY_CATEGORIES => $categories
+        return $this->render(self::PAGE_FORMATIONS, [
+            'formations' => $formations,
+            'categories' => $categories
         ]);
     }
 
@@ -50,31 +52,31 @@ class FormationsController extends AbstractController {
     public function sort($champ, $ordre, $table=""): Response{
         $formations = $this->formationRepository->findAllOrderBy($champ, $ordre, $table);
         $categories = $this->categorieRepository->findAll();
-        return $this->render(self::TEMPLATE_INDEX,  [
-            self::KEY_FORMATIONS => $formations,
-            self::KEY_CATEGORIES => $categories
+        return $this->render(self::PAGE_FORMATIONS, [
+            'formations' => $formations,
+            'categories' => $categories
         ]);
-    }     
+    }
 
     #[Route('/formations/recherche/{champ}/{table}', name: 'formations.findallcontain')]
     public function findAllContain($champ, Request $request, $table=""): Response{
         $valeur = $request->get("recherche");
         $formations = $this->formationRepository->findByContainValue($champ, $valeur, $table);
         $categories = $this->categorieRepository->findAll();
-        return $this->render(self::TEMPLATE_INDEX,  [
-            self::KEY_FORMATIONS => $formations,
-            self::KEY_CATEGORIES => $categories,
+        return $this->render(self::PAGE_FORMATIONS, [
+            'formations' => $formations,
+            'categories' => $categories,
             'valeur' => $valeur,
             'table' => $table
         ]);
-    }  
+    }
 
     #[Route('/formations/formation/{id}', name: 'formations.showone')]
     public function showOne($id): Response{
         $formation = $this->formationRepository->find($id);
-        return $this->render("pages/formation.html.twig", [
-            'formation' => $formation,
-        ]);        
-    }   
+        return $this->render(self::PAGE_FORMATION, [
+            'formation' => $formation
+        ]);
+    }
     
 }
