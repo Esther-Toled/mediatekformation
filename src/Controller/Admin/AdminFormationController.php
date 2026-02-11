@@ -17,9 +17,9 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AdminFormationController extends AbstractController {
 
-    const PAGE_FORMATIONS = "pages/admin/formations.html.twig";
+    const PAGE_FORMATIONS = "admin/formations.html.twig";
     
-    const PAGE_FORMATION = "pages/admin/formation.html.twig";
+    const PAGE_FORMATION = "admin/formation.html.twig";
 
 
 
@@ -79,32 +79,11 @@ class AdminFormationController extends AbstractController {
         return $this->render(self::PAGE_FORMATION, [
             'formation' => $formation
         ]);
-    }
-
-
-    /*
-    * Supprime une formation en base de données.
-    * Vérifie d'abord que la formation existe pour éviter les erreurs.
-    * Ajoute un message flash pour informer l'utilisateur.
-    * Redirige vers la page d'administration des formations.
-    */
-    #[Route('/admin/formations/delete/{id}' , name: 'admin.formations.delete')]
-    public function delete($id): Response {
-        $formation = $this->formationRepository->find($id);
-        if (!$formation) {
-            $this->addFlash('warning', 'La formation demandée n’existe pas.');
-            return $this->redirectToRoute('admin.formations');
-        }
-        $this->formationRepository->remove($formation);
-        $this->addFlash('danger', 'La suppression de la formation "' . $formation->getTitle() . '" a été effectuée avec succès.');
-
-        return $this->redirectToRoute('admin.formations');
-    }
-    
+    } 
 
     #[Route('/admin/formations/add' , name: 'admin.formations.add')]
     public function createformation(Request $request): Response {
-       $formation = new Formation;
+       $formation = new Formation();
        $form = $this->createForm(FormationType::class, $formation);
        $form->handleRequest($request);
        
@@ -126,6 +105,7 @@ class AdminFormationController extends AbstractController {
      * @param Request $request
      * @return Response
      */
+       
     #[Route('/admin/formations/edit{id}' , name: 'admin.formations.edit')]
         public function editformation (Formation $formation, request $request): Response {
             $formformation = $this->createForm(FormationType::class, $formation);
@@ -142,6 +122,20 @@ class AdminFormationController extends AbstractController {
                 'formation' => $formation,
                 'formFormation' => $formformation->createView()
             ]);
+        }        
+            
+    #[Route('/admin/formations/delete/{id}' , name: 'admin.formations.delete')]
+    public function delete($id): Response {
+        $formation = $this->formationRepository->find($id);
+        if (!$formation) {
+            $this->addFlash('warning', 'La formation demandée n’existe pas.');
+            return $this->redirectToRoute('admin.formations');
         }
+        $this->formationRepository->remove($formation);
+        $this->addFlash('danger', 'La suppression de la formation "' . $formation->getTitle() . '" a été effectuée avec succès.');
+
+        return $this->redirectToRoute('admin.formations');
+    }
+ 
 
 }

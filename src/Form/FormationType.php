@@ -28,9 +28,11 @@ class FormationType extends AbstractType
                     'max' => date('Y-m-d'),
                 ],
                 
+            ])            
+            ->add('title')
+            ->add('title', TextType::class,[
+                'required' =>true
             ])
-            ->add('title', TextType::class)
-
             ->add('description', TextareaType::class, [
                 'required' => false,
             ])
@@ -38,13 +40,13 @@ class FormationType extends AbstractType
             ->add('playlist', EntityType::class, [
                 'class' => Playlist::class,
                 'choice_label' => 'name',
-                'required' => false
+                'required' => true
             ])
             ->add('categories', EntityType::class, [
                 'class' => Categorie::class,
                 'choice_label' => 'name',
                 'multiple' => true,
-                'required' => false
+                'required' => true
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Enregistrer'
