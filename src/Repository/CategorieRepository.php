@@ -16,15 +16,15 @@ class CategorieRepository extends ServiceEntityRepository
         parent::__construct($registry, Categorie::class);
     }
 
-    public function add(Categorie $entity): void
+    public function add(Categorie $categorie): void
     {
-        $this->getEntityManager()->persist($entity);
+        $this->getEntityManager()->persist($categorie);
         $this->getEntityManager()->flush();
     }
 
-    public function remove(Categorie $entity): void
+    public function remove(Categorie $categorie): void
     {
-        $this->getEntityManager()->remove($entity);
+        $this->getEntityManager()->remove($categorie);
         $this->getEntityManager()->flush();
     }
     
@@ -44,4 +44,10 @@ class CategorieRepository extends ServiceEntityRepository
                 ->getResult();        
     }  
     
+    public function findAllOrderByName(string $ordre = 'ASC') : array{
+        return $this->createQueryBuilder('c')
+                ->orderBy('c.name', $ordre)
+                ->getQuery()
+                ->getResult();
+    }
 }

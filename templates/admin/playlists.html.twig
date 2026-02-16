@@ -1,23 +1,24 @@
 {% extends "baseadmin.html.twig" %}
 {% block body %}    
     <p class="text-end">
-        <a href="{{ path('admin.playlists.add') }}" class="btn btn-secondary">
+        <a href="{{ path('admin.playlists.add') }}" class="btn btn-info btn-sm active">
             Ajouter une playlist
         </a>
     </p>
     <table class="table table-striped">
+        <caption>tableau des playlists</caption>
         <thead>
             <tr>
                 <th class="text-left align-top" scope="col">
                     playlist<br />
-                    <a href="{{ path('admin.playlists.sort', {champ:'name', ordre:'ASC'}) }}" class="btn btn-warning btn-sm active" role="button" aria-pressed="true"><</a>
-                    <a href="{{ path('admin.playlists.sort', {champ:'name', ordre:'DESC'}) }}" class="btn btn-warning btn-sm active" role="button" aria-pressed="true">></a>
+                    <a href="{{ path('admin.playlists.sort', {champ:'name', ordre:'ASC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true"><</a>
+                    <a href="{{ path('admin.playlists.sort', {champ:'name', ordre:'DESC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true">></a>
                     <form class="form-inline mt-1" method="POST" action="{{ path('admin.playlists.findallcontain', {champ:'name'}) }}">
                         <div class="form-group mr-1 mb-2">
                             <input type="text" class="sm" name="recherche" 
                                    value="{% if valeur|default and not table|default %}{{ valeur }}{% endif %}">
                             <input type="hidden" name="_token" value="{{ csrf_token('filtre_name') }}">
-                            <button type="submit" class="btn btn-warning mb-2 btn-sm">filtrer</button>
+                            <button type="submit" class="btn btn-info btn-sm active">filtrer</button>
                         </div>
                     </form>                    
                 </th>
@@ -39,8 +40,8 @@
                 </th>
                 <th class="text-center align-top" scope="col">
                     Nombre de formations<br />
-                    <a href="{{ path('admin.playlists.sort', {champ:'nombre', ordre:'ASC'}) }}" class="btn btn-warning btn-sm active" role="button" aria-pressed="true"><</a>
-                    <a href="{{ path('admin.playlists.sort', {champ:'nombre', ordre:'DESC'}) }}" class="btn btn-warning btn-sm active" role="button" aria-pressed="true">></a>
+                    <a href="{{ path('admin.playlists.sort', {champ:'nombre', ordre:'ASC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true"><</a>
+                    <a href="{{ path('admin.playlists.sort', {champ:'nombre', ordre:'DESC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true">></a>
                 </th>
                 <th class="text-center align-top" scope="col">
                     Editer
@@ -56,7 +57,7 @@
                 {% for k in 0..playlists|length-1 %}
                     <tr class="align-middle">
                         <td>
-                            <h5 class="text-warning">
+                            <h5 class="text-info">
                                 {{ playlists[k].name }}
                             </h5>
                         </td>                 
