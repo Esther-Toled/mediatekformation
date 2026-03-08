@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Description of PlaylistsController
  *
- * @author emds
+ * @author toled
  */
 class PlaylistsController extends AbstractController {
     
@@ -59,7 +59,7 @@ class PlaylistsController extends AbstractController {
             self::KEY_CATEGORIES => $categories            
         ]);
     }
-
+    
     #[Route('/playlists/tri/{champ}/{ordre}', name: 'playlists.sort')]
     public function sort($champ, $ordre): Response{
         switch($champ){
@@ -80,7 +80,7 @@ class PlaylistsController extends AbstractController {
             self::KEY_CATEGORIES => $categories            
         ]);
     }          
-
+    
     #[Route('/playlists/recherche/{champ}/{table}', name: 'playlists.findallcontain')]
     public function findAllContain($champ, Request $request, $table=""): Response{
         $valeur = $request->get("recherche");

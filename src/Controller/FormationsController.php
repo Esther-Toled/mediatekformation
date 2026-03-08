@@ -47,7 +47,7 @@ class FormationsController extends AbstractController {
             'categories' => $categories
         ]);
     }
-
+    
     #[Route('/formations/tri/{champ}/{ordre}/{table}', name: 'formations.sort')]
     public function sort($champ, $ordre, $table=""): Response{
         $formations = $this->formationRepository->findAllOrderBy($champ, $ordre, $table);
@@ -57,7 +57,7 @@ class FormationsController extends AbstractController {
             'categories' => $categories
         ]);
     }
-
+    
     #[Route('/formations/recherche/{champ}/{table}', name: 'formations.findallcontain')]
     public function findAllContain($champ, Request $request, $table=""): Response{
         $valeur = $request->get("recherche");
