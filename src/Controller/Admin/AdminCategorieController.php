@@ -34,7 +34,10 @@ class AdminCategorieController extends AbstractController{
     public function __construct(CategorieRepository $categorieRepository) {
         $this->categorieRepository = $categorieRepository;
     }
-    
+    /**
+     * 
+     * @return Response
+     */
     #[Route('/admin/categories', name: 'admin.categories')]
     public function index(): Response {
         $categories = $this->categorieRepository->findAll();
@@ -42,7 +45,11 @@ class AdminCategorieController extends AbstractController{
             'categories' => $categories
         ]);
     }   
-    
+    /**
+     * 
+     * @param int $id
+     * @return Response
+     */
     #[Route('/admin/categories/delete/{id}', name: 'admin.categories.delete')]
     public function suppr(int $id): Response{
         $categorie = $this->categorieRepository->find($id);
@@ -60,7 +67,11 @@ class AdminCategorieController extends AbstractController{
         return $this->redirectToRoute('admin.categories');
     }
 
-    
+    /**
+     * 
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/admin/categories/add', name: 'admin.categories.add')]
     public function ajout(Request $request): Response{
         $categorie = new Categorie;

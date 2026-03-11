@@ -11,17 +11,31 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class FormationRepository extends ServiceEntityRepository
 {
+    /**
+     * 
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Formation::class);
     }
 
+    /**
+     * 
+     * @param Formation $entity
+     * @return void
+     */
     public function add(Formation $entity): void
     {
         $this->getEntityManager()->persist($entity);
         $this->getEntityManager()->flush();
     }
 
+    /**
+     * 
+     * @param Formation $entity
+     * @return void
+     */
     public function remove(Formation $entity): void
     {
         $this->getEntityManager()->remove($entity);
@@ -59,17 +73,21 @@ class FormationRepository extends ServiceEntityRepository
      * @return Formation[]
      */
     public function findByContainValue($champ, $valeur, $table=""): array{
-        if($valeur==""){
+        if($valeur=="")
+        {
             return $this->findAll();
         }
-        if($table==""){
+        if($table=="")
+        {
             return $this->createQueryBuilder('f')
                     ->where('f.'.$champ.' LIKE :valeur')
                     ->orderBy('f.publishedAt', 'DESC')
                     ->setParameter('valeur', '%'.$valeur.'%')
                     ->getQuery()
                     ->getResult();
-        }else{
+        }
+        else
+        {
             return $this->createQueryBuilder('f')
                     ->join('f.'.$table, 't')
                     ->where('t.'.$champ.' LIKE :valeur')

@@ -40,7 +40,12 @@ class AdminPlaylistController extends AbstractController {
      * @var CategorieRepository
      */
     private $categorieRepository;
-    
+    /**
+     * 
+     * @param PlaylistRepository $playlistRepository
+     * @param CategorieRepository $categorieRepository
+     * @param FormationRepository $formationRespository
+     */
     public function __construct(PlaylistRepository $playlistRepository,
             CategorieRepository $categorieRepository,
             FormationRepository $formationRespository) {
@@ -49,7 +54,10 @@ class AdminPlaylistController extends AbstractController {
         $this->formationRepository = $formationRespository;
     }
     
-    
+    /**
+     * 
+     * @return Response
+     */
     #[Route('/admin/playlists', name: 'admin.playlists')]
     public function index(): Response{
         $playlists = $this->playlistRepository->findAllOrderByName('ASC');
@@ -60,6 +68,12 @@ class AdminPlaylistController extends AbstractController {
         ]);
     }
 
+    /**
+     * 
+     * @param type $champ
+     * @param type $ordre
+     * @return Response
+     */
     #[Route('/admin/playlists/tri/{champ}/{ordre}', name: 'admin.playlists.sort')]
     public function sort($champ, $ordre): Response{
         if($champ == "name"){
@@ -75,6 +89,13 @@ class AdminPlaylistController extends AbstractController {
         ]);
     }
 
+    /**
+     * 
+     * @param type $champ
+     * @param Request $request
+     * @param type $table
+     * @return Response
+     */
     #[Route('/admin/playlists/recherche/{champ}/{table}', name: 'admin.playlists.findallcontain')]
     public function findAllContain($champ, Request $request, $table=""): Response{
         $valeur = $request-> get("recherche");
@@ -88,6 +109,11 @@ class AdminPlaylistController extends AbstractController {
         ]);
     }
 
+    /**
+     * 
+     * @param type $id
+     * @return Response
+     */
     #[Route('/admin/playlists/playlist/{id}', name: 'admin.playlists.showone')]
     public function showOne($id): Response{
         $playlist = $this->playlistRepository->find($id);
@@ -146,7 +172,11 @@ class AdminPlaylistController extends AbstractController {
             ]);
         }
 
-        
+     /**
+      * 
+      * @param Request $request
+      * @return Response
+      */   
     #[Route('admin/playlists/add' , name: 'admin.playlists.add')]
     public function createplaylist(Request $request): Response {
        $playlist = new Playlist();

@@ -11,17 +11,31 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CategorieRepository extends ServiceEntityRepository
 {
+    /**
+     * 
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Categorie::class);
     }
 
+    /**
+     * 
+     * @param Categorie $categorie
+     * @return void
+     */
     public function add(Categorie $categorie): void
     {
         $this->getEntityManager()->persist($categorie);
         $this->getEntityManager()->flush();
     }
 
+    /**
+     * 
+     * @param Categorie $categorie
+     * @return void
+     */
     public function remove(Categorie $categorie): void
     {
         $this->getEntityManager()->remove($categorie);
@@ -43,7 +57,11 @@ class CategorieRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getResult();        
     }  
-    
+    /**
+     * 
+     * @param string $ordre
+     * @return array
+     */
     public function findAllOrderByName(string $ordre = 'ASC') : array{
         return $this->createQueryBuilder('c')
                 ->orderBy('c.name', $ordre)

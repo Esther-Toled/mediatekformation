@@ -21,8 +21,6 @@ class AdminFormationController extends AbstractController {
     
     const PAGE_FORMATION = "admin/formation.html.twig";
 
-
-
     /**
      *
      * @var FormationRepository
@@ -34,12 +32,19 @@ class AdminFormationController extends AbstractController {
      * @var CategorieRepository
      */
     private $categorieRepository;
-    
+    /**
+     * 
+     * @param FormationRepository $formationRepository
+     * @param CategorieRepository $categorieRepository
+     */
     public function __construct(FormationRepository $formationRepository, CategorieRepository $categorieRepository) {
         $this->formationRepository = $formationRepository;
         $this->categorieRepository= $categorieRepository;
     }
-    
+    /**
+     * 
+     * @return Response
+     */
     #[Route('/admin/formations', name: 'admin.formations')]
     public function index(): Response{
         $formations = $this->formationRepository->findAll();
@@ -50,6 +55,13 @@ class AdminFormationController extends AbstractController {
         ]);
     }
 
+    /**
+     * 
+     * @param type $champ
+     * @param type $ordre
+     * @param type $table
+     * @return Response
+     */
     #[Route('/admin/formations/tri/{champ}/{ordre}/{table}', name: 'admin.formations.sort')]
     public function sort($champ, $ordre, $table=""): Response{
         $formations = $this->formationRepository->findAllOrderBy($champ, $ordre, $table);
@@ -60,6 +72,13 @@ class AdminFormationController extends AbstractController {
         ]);
     }
 
+    /**
+     * 
+     * @param type $champ
+     * @param Request $request
+     * @param type $table
+     * @return Response
+     */
     #[Route('/admin/formations/recherche/{champ}/{table}', name: 'admin.formations.findallcontain')]
     public function findAllContain($champ, Request $request, $table=""): Response{
         $valeur = $request->get("recherche");
@@ -73,6 +92,11 @@ class AdminFormationController extends AbstractController {
         ]);
     }
 
+    /**
+     * 
+     * @param type $id
+     * @return Response
+     */
     #[Route('/admin/formations/formation/{id}', name: 'admin.formations.showone')]
     public function showOne($id): Response{
         $formation = $this->formationRepository->find($id);
@@ -81,6 +105,11 @@ class AdminFormationController extends AbstractController {
         ]);
     } 
 
+    /**
+     * 
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/admin/formations/add' , name: 'admin.formations.add')]
     public function createformation(Request $request): Response {
        $formation = new Formation();
@@ -123,7 +152,11 @@ class AdminFormationController extends AbstractController {
                 'formFormation' => $formformation->createView()
             ]);
         }        
-            
+     /**
+      * 
+      * @param type $id
+      * @return Response
+      */       
     #[Route('/admin/formations/delete/{id}' , name: 'admin.formations.delete')]
     public function delete($id): Response {
         $formation = $this->formationRepository->find($id);

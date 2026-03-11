@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Description of AccueilController
  *
- * @author emds
+ * @author toled
  */
 class AdminAccueilController extends AbstractController{
     
@@ -25,7 +25,10 @@ class AdminAccueilController extends AbstractController{
     public function __construct(FormationRepository $repository) {
         $this->repository = $repository;
     }   
-    
+    /**
+     * 
+     * @return Response
+     */
     #[Route('/admin', name: 'admin.accueil')]
     public function index(): Response{        
         return $this->render("admin/admin.accueil.html.twig"); 

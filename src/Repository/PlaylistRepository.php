@@ -11,17 +11,31 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PlaylistRepository extends ServiceEntityRepository
 {
+    /**
+     * 
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Playlist::class);
     }
 
+    /**
+     * 
+     * @param Playlist $entity
+     * @return void
+     */
     public function add(Playlist $entity): void
     {
         $this->getEntityManager()->persist($entity);
         $this->getEntityManager()->flush();
     }
 
+    /**
+     * 
+     * @param Playlist $entity
+     * @return void
+     */
     public function remove(Playlist $entity): void
     {
         $this->getEntityManager()->remove($entity);
@@ -67,10 +81,12 @@ class PlaylistRepository extends ServiceEntityRepository
      * @return Playlist[]
      */
     public function findByContainValue($champ, $valeur, $table=""): array{
-        if($valeur==""){
+        if($valeur=="")
+        {
             return $this->findAllOrderByName('ASC');
         }    
-        if($table==""){      
+        if($table=="")
+        {      
             return $this->createQueryBuilder('p')
                     ->leftjoin('p.formations', 'f')
                     ->where('p.'.$champ.' LIKE :valeur')
@@ -80,7 +96,8 @@ class PlaylistRepository extends ServiceEntityRepository
                     ->getQuery()
                     ->getResult();              
         }
-        else{   
+        else
+        {   
             return $this->createQueryBuilder('p')
                     ->leftjoin('p.formations', 'f')
                     ->leftjoin('f.categories', 'c')
